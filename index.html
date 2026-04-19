@@ -58,11 +58,11 @@
 
   /* Tabs */
   .tabs {
-    display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px;
+    display: grid; grid-template-columns: repeat(8, 1fr); gap: 6px;
     background: var(--panel); border: 1px solid var(--border); border-radius: 12px;
     padding: 6px; box-shadow: var(--shadow); margin-bottom: 16px;
   }
-  @media (max-width: 760px) { .tabs { grid-template-columns: repeat(4, 1fr); gap: 4px; } }
+  @media (max-width: 880px) { .tabs { grid-template-columns: repeat(4, 1fr); gap: 4px; } }
   .tab {
     appearance: none; background: transparent; color: var(--muted);
     border: 1px solid transparent; border-radius: 8px; padding: 10px 8px;
@@ -313,6 +313,7 @@
   <button class="tab" role="tab" data-q="Q4">Q4 <small>deliver</small><span class="tab-bar"></span></button>
   <button class="tab" role="tab" data-q="summary">Summary <small>1-page</small><span class="tab-bar"></span></button>
   <button class="tab" role="tab" data-q="detail">Detail <small>full text</small><span class="tab-bar"></span></button>
+  <button class="tab" role="tab" data-q="feasibility">Feasibility <small>4h/week</small><span class="tab-bar"></span></button>
 </div>
 
 <div id="qhead-container"></div>
@@ -728,9 +729,10 @@ function render() {
   // tab aria-selected
   for (const t of tabs) t.setAttribute("aria-selected", t.dataset.q === currentQ ? "true" : "false");
 
-  // If on Summary or Detail tab, render markdown instead of dashboard
-  if (currentQ === "summary") { renderMd("fy27-goals.md"); return; }
-  if (currentQ === "detail")  { renderMd("fy27-goals-detail.md"); return; }
+  // If on Summary / Detail / Feasibility tab, render markdown instead of dashboard
+  if (currentQ === "summary")     { renderMd("fy27-goals.md"); return; }
+  if (currentQ === "detail")      { renderMd("fy27-goals-detail.md"); return; }
+  if (currentQ === "feasibility") { renderMd("fy27-goals-feasibility.md"); return; }
 
   showDashboard();
 

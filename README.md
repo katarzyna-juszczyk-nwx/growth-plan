@@ -12,8 +12,9 @@ tracking progress through the year.
 | File | Purpose |
 |---|---|
 | [index.html](./index.html) | Interactive dashboard — tabs per quarter, checkboxes per milestone, progress bars, export snapshot. Open in any browser. |
-| [fy27-goals.md](./fy27-goals.md) | One-page summary of all 8 goals — share this with your manager as the committed text. |
+| [fy27-goals.md](./fy27-goals.md) | One-page summary of all 8 goals. |
 | [fy27-goals-detail.md](./fy27-goals-detail.md) | Longer version with specifics, metrics, quarterly milestones, evidence, and risks per goal. |
+| [fy27-goals-feasibility.md](./fy27-goals-feasibility.md) | Honest capacity analysis at 4h/week: plan vs. capacity, per-goal feasibility, scope-reduction framings to bring into the next 1:1. |
 
 ## Live dashboard
 
