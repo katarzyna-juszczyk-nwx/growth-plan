@@ -103,28 +103,3 @@ These exist whether you like it or not:
 - **Q1 ramp reality**: "4h/week" starting month 1 is optimistic — account for a slow
   start
 
----
-
-## My honest recommendation
-
-1. **Bring this doc to your next 1:1** before committing. The 4h/week assumption is the
-   load-bearing number in the whole plan; confirm it's realistic (and ask whether
-   conference time, course time, and similar should come out of the 4h or be separate).
-2. **Prefer depth over breadth** — pick **Framing 1 (four focused goals)**. A promo
-   conversation lands better with 3–4 substantial artifacts than 8 shallow ones.
-3. **Treat Q1 as a scoping quarter**, not a kickoff quarter. By end of Q1, you should
-   have re-baselined the plan based on what actually fits.
-4. **Revisit this doc every quarter** at the regular check-in. If the 4h/week assumption
-   holds, confidence grows. If it slips, cut earlier not later.
-
----
-
-## If you want to explore other budgets
-
-| Budget | Realistic scope |
-|---|---|
-| **2h/week** (~95h/year) | 2 goals max. Pick Goal 1 (recommendation doc) + Goal 8 (course). |
-| **4h/week** (~190h/year) | **4 focused goals** (Framing 1 above). |
-| **6h/week** (~285h/year) | 5 goals. Add back a second goal from {2, 4, 5, 6, 7}. |
-| **8h/week** (~380h/year) | 6 goals. Full Framing 1 + a simplified Goal 2 or 5. |
-| **As-written plan** | ~12h/week of focused investment. Not sustainable alongside normal delivery. |
