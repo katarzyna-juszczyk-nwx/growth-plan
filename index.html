@@ -1,0 +1,762 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>FY27 Goals — Senior Front-End Growth Plan</title>
+<style>
+  :root {
+    --bg: #0f1115;
+    --panel: #171a21;
+    --panel-2: #1e222b;
+    --text: #e7e9ee;
+    --muted: #9aa3b2;
+    --accent: #7dd3fc;
+    --accent-2: #22d3ee;
+    --ok: #34d399;
+    --warn: #fbbf24;
+    --border: #262b36;
+    --shadow: 0 1px 0 rgba(255, 255, 255, 0.03) inset, 0 6px 20px rgba(0, 0, 0, 0.25);
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #f7f8fa;
+      --panel: #ffffff;
+      --panel-2: #f3f5f9;
+      --text: #121418;
+      --muted: #5b6472;
+      --accent: #0369a1;
+      --accent-2: #0891b2;
+      --ok: #047857;
+      --warn: #b45309;
+      --border: #e3e7ee;
+      --shadow: 0 1px 0 rgba(0, 0, 0, 0.03) inset, 0 4px 12px rgba(16, 24, 40, 0.06);
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font: 15px/1.5 ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    padding: 24px 16px 64px;
+  }
+  .wrap { max-width: 1100px; margin: 0 auto; }
+  header {
+    display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap;
+    gap: 12px; margin-bottom: 8px;
+  }
+  h1 { margin: 0; font-size: 22px; letter-spacing: -0.01em; }
+  .sub { color: var(--muted); font-size: 13px; }
+  .draft {
+    background: var(--panel-2); border: 1px dashed var(--border); color: var(--muted);
+    padding: 10px 12px; border-radius: 8px; margin: 16px 0 20px; font-size: 13px;
+  }
+  .meta { color: var(--muted); font-size: 13px; margin-bottom: 20px; }
+  .meta strong { color: var(--text); }
+
+  /* Tabs */
+  .tabs {
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px;
+    background: var(--panel); border: 1px solid var(--border); border-radius: 12px;
+    padding: 6px; box-shadow: var(--shadow); margin-bottom: 16px;
+  }
+  @media (max-width: 640px) { .tabs { grid-template-columns: repeat(5, 1fr); gap: 4px; } }
+  .tab {
+    appearance: none; background: transparent; color: var(--muted);
+    border: 1px solid transparent; border-radius: 8px; padding: 10px 8px;
+    font: inherit; font-weight: 600; cursor: pointer; transition: background .15s, color .15s, border-color .15s;
+    text-align: center;
+  }
+  .tab small { display: block; font-weight: 500; font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .tab:hover { background: var(--panel-2); color: var(--text); }
+  .tab[aria-selected="true"] {
+    background: var(--panel-2); color: var(--text);
+    border-color: var(--border);
+  }
+  .tab[aria-selected="true"] .tab-bar { background: var(--accent); }
+  .tab-bar {
+    display: block; height: 3px; width: 28px; background: var(--border);
+    border-radius: 999px; margin: 6px auto 0;
+  }
+
+  /* Quarter summary header */
+  .qhead {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin: 4px 2px 12px; gap: 12px; flex-wrap: wrap;
+  }
+  .qhead h2 { margin: 0; font-size: 18px; }
+  .qhead .pct {
+    font-variant-numeric: tabular-nums; color: var(--muted); font-size: 13px;
+  }
+  .qprog {
+    height: 8px; background: var(--panel-2); border: 1px solid var(--border);
+    border-radius: 999px; overflow: hidden; margin: 0 2px 20px;
+  }
+  .qprog > div {
+    height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    width: 0%; transition: width .25s ease;
+  }
+
+  /* Goal cards */
+  .goals { display: grid; grid-template-columns: 1fr; gap: 14px; }
+  .goal {
+    background: var(--panel); border: 1px solid var(--border); border-radius: 14px;
+    box-shadow: var(--shadow); overflow: hidden;
+  }
+  .goal > header {
+    display: flex; align-items: center; gap: 12px; padding: 14px 16px; cursor: pointer;
+    border-bottom: 1px solid transparent;
+  }
+  .goal[open] > header { border-bottom-color: var(--border); }
+  .goal-num {
+    font-variant-numeric: tabular-nums; font-size: 12px; color: var(--muted);
+    background: var(--panel-2); padding: 4px 8px; border-radius: 6px; border: 1px solid var(--border);
+    flex: 0 0 auto;
+  }
+  .cat-badge {
+    font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 999px;
+    border: 1px solid var(--border); flex: 0 0 auto; white-space: nowrap;
+    letter-spacing: 0.02em;
+  }
+  .cat-badge.cat-results   { background: rgba(125, 211, 252, 0.14); color: var(--accent); border-color: rgba(125, 211, 252, 0.35); }
+  .cat-badge.cat-behaviors { background: rgba(34, 211, 238, 0.14);  color: var(--accent-2); border-color: rgba(34, 211, 238, 0.35); }
+  .cat-badge.cat-skills    { background: rgba(52, 211, 153, 0.14);  color: var(--ok); border-color: rgba(52, 211, 153, 0.35); }
+  .cat-badge.cat-growth    { background: rgba(251, 191, 36, 0.14);  color: var(--warn); border-color: rgba(251, 191, 36, 0.35); }
+  .goal-title {
+    flex: 1 1 auto; font-weight: 600; font-size: 15px;
+  }
+  .goal-meta {
+    flex: 0 0 auto; color: var(--muted); font-size: 12px; display: flex; gap: 10px; align-items: center;
+  }
+  .goal-pct { font-variant-numeric: tabular-nums; }
+  .mini-bar {
+    width: 84px; height: 6px; background: var(--panel-2); border: 1px solid var(--border);
+    border-radius: 999px; overflow: hidden;
+  }
+  .mini-bar > div {
+    height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    width: 0%; transition: width .25s ease;
+  }
+  .chev { color: var(--muted); transition: transform .15s; }
+  .goal[open] .chev { transform: rotate(90deg); }
+
+  /* Goal body */
+  .body { padding: 6px 16px 16px; }
+  .section-h { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin: 14px 0 6px; }
+  .q-block {
+    background: var(--panel-2); border: 1px solid var(--border);
+    border-radius: 10px; padding: 10px 12px; margin-bottom: 10px;
+  }
+  .q-block.ramp { border-style: dashed; opacity: 0.9; }
+  .q-block-h {
+    display: flex; align-items: center; gap: 8px;
+    font-weight: 600; font-size: 13px; margin-bottom: 6px; color: var(--muted);
+  }
+  .q-badge {
+    background: var(--bg); border: 1px solid var(--border); color: var(--text);
+    border-radius: 6px; padding: 2px 6px; font-size: 11px; font-variant-numeric: tabular-nums;
+  }
+  ul.checks { list-style: none; padding: 0; margin: 0; }
+  ul.checks li {
+    display: flex; gap: 8px; align-items: flex-start; padding: 4px 0;
+    font-size: 14px; line-height: 1.45;
+  }
+  ul.checks input[type="checkbox"] {
+    appearance: none; width: 16px; height: 16px; flex: 0 0 auto;
+    border: 1.5px solid var(--border); border-radius: 4px;
+    background: var(--panel); cursor: pointer; margin-top: 3px;
+    position: relative; transition: background .15s, border-color .15s;
+  }
+  ul.checks input[type="checkbox"]:hover { border-color: var(--accent); }
+  ul.checks input[type="checkbox"]:checked {
+    background: var(--accent); border-color: var(--accent);
+  }
+  ul.checks input[type="checkbox"]:checked::after {
+    content: ""; position: absolute; left: 4px; top: 0.5px;
+    width: 5px; height: 10px; border: solid var(--bg);
+    border-width: 0 2px 2px 0; transform: rotate(45deg);
+  }
+  ul.checks li.done label { color: var(--muted); text-decoration: line-through; }
+  ul.checks label { cursor: pointer; flex: 1 1 auto; }
+
+  /* Metrics list */
+  .metrics {
+    background: var(--panel-2); border: 1px solid var(--border); border-radius: 10px;
+    padding: 10px 12px; font-size: 13.5px; color: var(--muted);
+  }
+  .metrics b { color: var(--text); font-weight: 600; }
+
+  /* Footer / bulk actions */
+  .bulk {
+    display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end;
+    margin: 18px 2px 0;
+  }
+  button.ghost {
+    background: var(--panel); color: var(--muted); border: 1px solid var(--border);
+    border-radius: 8px; padding: 6px 10px; font: inherit; font-size: 12px; cursor: pointer;
+  }
+  button.ghost:hover { color: var(--text); }
+
+  /* All-goals view */
+  .all-goals-meta { color: var(--muted); font-size: 13px; margin: 6px 2px 12px; }
+  .cat-divider {
+    margin: 6px 2px 0; padding-top: 4px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .cat-divider .cat-badge { font-size: 12px; padding: 4px 10px; }
+  .goals .cat-divider:first-child { margin-top: 0; }
+
+  details > summary { list-style: none; cursor: pointer; }
+  details > summary::-webkit-details-marker { display: none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div>
+    <h1>FY27 Goals — Senior Front-End Growth Plan</h1>
+    <div class="sub">2026-04 → 2027-04 · Q1 = ramp · active execution Q2–Q4</div>
+  </div>
+  <div class="sub">
+    <a href="./fy27-goals.md" style="color: var(--accent);">summary.md</a> ·
+    <a href="./fy27-goals-detail.md" style="color: var(--accent);">detail.md</a>
+  </div>
+</header>
+
+<div class="draft">
+  <strong>Draft — bound to change.</strong> This is a working plan, not a commitment.
+  Goals, metrics, and milestones will be revised as baselines are captured in Q2 and as
+  circumstances evolve. Progress checkboxes persist in your browser's <code>localStorage</code>.
+</div>
+
+<div class="meta">
+  <strong>Anchor themes:</strong> AI Engineering Excellence · Frontend Quality & Architecture
+</div>
+<div class="meta" style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+  <strong>Categories:</strong>
+  <span class="cat-badge cat-results">Results & Outcomes</span>
+  <span class="cat-badge cat-behaviors">Behaviors & Impact</span>
+  <span class="cat-badge cat-skills">Skills & Competencies</span>
+  <span class="cat-badge cat-growth">Growth & Development</span>
+</div>
+
+<div role="tablist" class="tabs" id="tabs">
+  <button class="tab" role="tab" data-q="all" aria-selected="true">All <small>8 goals</small><span class="tab-bar"></span></button>
+  <button class="tab" role="tab" data-q="Q1">Q1 <small>ramp</small><span class="tab-bar"></span></button>
+  <button class="tab" role="tab" data-q="Q2">Q2 <small>kickoff</small><span class="tab-bar"></span></button>
+  <button class="tab" role="tab" data-q="Q3">Q3 <small>build</small><span class="tab-bar"></span></button>
+  <button class="tab" role="tab" data-q="Q4">Q4 <small>deliver</small><span class="tab-bar"></span></button>
+</div>
+
+<div id="qhead-container"></div>
+<div id="qprog-container"></div>
+
+<div id="content" class="goals"></div>
+
+<div class="bulk">
+  <button class="ghost" id="export-btn">Export JSON</button>
+  <button class="ghost" id="reset-btn">Reset progress</button>
+</div>
+
+</div>
+
+<script>
+/* ---------------- data ---------------- */
+const GOALS = [
+  {
+    num: 1,
+    title: "Code-Health Tooling Evaluation",
+    category: "Results & Outcomes",
+    theme: "Quality & Arch",
+    summary: "Research, pilot, and compare code-health tooling for AA26; deliver a written business-case recommendation at Q4. No production rollout this year.",
+    metrics: [
+      "≥ 7 tools scored (≥ 2–3 per category)",
+      "≥ 2 piloted hands-on",
+      "~15-item labeled sample",
+      "1 recommendation doc (≤ 10 pages)",
+      "100% of shortlist scored on all 4 dimensions",
+    ],
+    quarters: {
+      Q1: ["Read up on the tooling landscape (no deliverables committed)"],
+      Q2: [
+        "Draft evaluation plan + scorecard template",
+        "Build labeled sample of ~15 AA26 files/PRs",
+        "Publish initial landscape map",
+        "Shortlist 3 candidates per category",
+        "Pilot 2 dedicated platforms hands-on",
+      ],
+      Q3: [
+        "Pilot most promising AI-review tool",
+        "Compare against Goal 6 custom pipeline on same labeled sample",
+        "Capture cost/licensing info via procurement/sales",
+        "Update scorecard with all pilot findings",
+      ],
+      Q4: [
+        "Synthesize findings into recommendation doc (≤ 10 pages)",
+        "Circulate + present to EM and interested peers",
+        "Explicit 'recommend / not / revisit' verdict per candidate",
+        "Propose next-year rollout plan",
+      ],
+    },
+  },
+  {
+    num: 2,
+    title: "Versioned Code-Quality Skill Library",
+    category: "Results & Outcomes",
+    theme: "AI Eng",
+    summary: "Semver-tagged Claude skills library focused on code quality & review with a deterministic precision/recall harness.",
+    metrics: [
+      "Review skills: precision ≥ 75%, recall ≥ 55%, false-positive ≤ 25%",
+      "Tokens/task −20%, cost/task −20% vs. Q2 baseline",
+      "≥ 3 skills versioned + changelog",
+      "≥ 25 labeled fixture PRs",
+      "Harness adopted by ≥ 1 other FE engineer",
+    ],
+    quarters: {
+      Q1: [
+        "Draft versioning convention",
+        "Scout labeled-fixture candidates from merged PRs",
+      ],
+      Q2: [
+        "Harness MVP on 1 existing review skill",
+        "10 labeled fixture PRs + capture baseline precision/recall/tokens/cost",
+        "Version + benchmark pre-existing review-oriented skills",
+        "First A/B upgrade (≥ 10pp precision delta, or ≥ 10pp recall at fixed precision)",
+      ],
+      Q3: [
+        "Ship first new skill where a gap is confirmed",
+        "Pick reporting format (CSV / dashboard / PR comment / …)",
+        "≥ 3 minor-version upgrades with regression gate",
+      ],
+      Q4: [
+        "Hit KPIs: precision ≥ 75%, recall ≥ 55%, tokens −20%",
+        "≥ 1 other-engineer adoption",
+        "Publish reusable skill preset for 1Secure",
+      ],
+    },
+  },
+  {
+    num: 3,
+    title: "Cross-Product FE Architecture Contributions",
+    category: "Behaviors & Impact",
+    theme: "Quality & Arch",
+    summary: "Make AA26 shared components extraction-ready, drive proper Netwrix MUI theme adoption, and establish an ADR practice. @netwrix/ui may be owned by another team; my focus is extraction-readiness — no-regret.",
+    metrics: [
+      "≥ 5 components tagged extraction-ready",
+      "Theme violations −50% vs. Q2 baseline",
+      "0 new theme violations merged on changed lines from Q4",
+      "Theme Usage Guide referenced in ≥ 8 PRs",
+      "≥ 6 new ADRs (docs/adr/ from 2 → ≥ 8)",
+    ],
+    quarters: {
+      Q1: [
+        "Draft ADR template + contributor README note",
+        "Sketch extraction-ready component checklist",
+      ],
+      Q2: [
+        "ADR-0003 'Extraction-Ready Shared UI Strategy'",
+        "Theme-compliance audit baseline per category",
+        "Publish extraction-ready checklist doc",
+        "Tag first 2 components extraction-ready (likely AppBreadcrumbs + Nav)",
+        "Publish Netwrix MUI Theme Usage Guide",
+        "Ship ESLint rule (warn-mode) for theme-token violations",
+        "ADR-0004 Theme Adoption Strategy",
+        "ADR-0005 shared-UI API conventions",
+      ],
+      Q3: [
+        "Tag 3 more components extraction-ready (5 total)",
+        "Flip ESLint rule to error-mode on changed lines",
+        "Remediation batch: ≥ 25% of Q2 baseline fixed",
+        "ADR-0006 shadcn-in-AA26 status",
+        "ADR-0007 cross-product coordination (if concrete)",
+      ],
+      Q4: [
+        "Remediation total: ≥ 50% of Q2 baseline fixed",
+        "Coordinate on contribution path if @netwrix/ui exists",
+        "ADR-0008 year-end decisions",
+      ],
+    },
+  },
+  {
+    num: 4,
+    title: "AIdeas Session + Developer Companion Skill",
+    category: "Behaviors & Impact",
+    theme: "AI Eng",
+    summary: "Present once at AIdeas + ship a developer-pulled code-quality companion skill (self-review / review-helper / PR-packaging modes). No auto-commenting PR bot.",
+    metrics: [
+      "1 AIdeas talk delivered + ≥ 3 follow-up adoption conversations + write-up",
+      "Companion skill benchmarked via Goal 2 harness",
+      "≥ 4 FE engineers adopt the skill",
+      "≥ 40 invocations logged",
+      "≥ 60% 'improved my workflow' survey response",
+      "3 modes shipped (self-review → PR-packaging → review-helper)",
+    ],
+    quarters: {
+      Q1: [
+        "Outline AIdeas talk proposal + abstract",
+        "Sketch skill modes on paper",
+      ],
+      Q2: [
+        "Submit AIdeas proposal to organizers",
+        "Skill design spike + usage-logging mechanism defined",
+        "Test skill logic on ~5 historical PRs",
+        "Ship v0.x (self-review + PR-packaging modes)",
+        "Pilot with 2 FE teammates",
+        "Refine AIdeas talk deck based on Q2 learnings",
+      ],
+      Q3: [
+        "Ship v1.0 with all 3 modes",
+        "Broaden pilot to ≥ 4 FE engineers",
+        "Deliver AIdeas talk (or prep for H2 date if later)",
+        "Publish write-up at docs/ai-engineering/aideas-session.md",
+        "Ship v1.1 based on pilot feedback",
+      ],
+      Q4: [
+        "Consolidate adoption: ≥ 40 invocations logged",
+        "Run post-pilot survey",
+        "Publish companion-skill usage report",
+        "Consider transfer to 1Secure FE",
+      ],
+    },
+  },
+  {
+    num: 5,
+    title: "Tool Depth + A11y + AI Code-Quality Tooling Eval",
+    category: "Skills & Competencies",
+    theme: "Quality & Arch",
+    summary: "Build real depth in the tools piloted under Goal 1, master accessibility engineering, and evaluate AI code-quality tools.",
+    metrics: [
+      "2 deep-dive notes (≤ 5 pages each)",
+      "0 Critical/Serious axe violations on critical paths",
+      "2 team pairing sessions on keyboard/ARIA",
+      "Strict eslint-plugin-jsx-a11y config merged",
+      "WAS (or equivalent) certificate",
+      "≥ 3 AI tools scored on labeled sample",
+      "AI-tool comparison doc published",
+    ],
+    quarters: {
+      Q1: [
+        "Scout WAS (or equivalent) courses",
+        "Draft deep-dive note templates",
+        "Draft AI-tool evaluation plan + fixture definitions",
+      ],
+      Q2: [
+        "axe-core audit of top-10 pages + triage report",
+        "Enroll in WAS (2h/week study time)",
+        "Deep-dive #1 (first Goal 1 pilot tool)",
+        "A11y batch 1: wizard focus management, DataGrid keyboard nav",
+        "Merge strict eslint-plugin-jsx-a11y config",
+      ],
+      Q3: [
+        "Deep-dive #2 (second Goal 1 pilot tool)",
+        "A11y batch 2: color-contrast sweep, aria-live on scan progress",
+        "Zero Critical/Serious axe violations on critical paths",
+        "Pilot ≥ 3 AI review tools on labeled sample",
+        "Publish AI-tool comparison doc",
+        "Sit WAS exam",
+      ],
+      Q4: [
+        "Feed deep-dive notes into Goal 1 recommendation doc",
+        "Publish a11y pattern library",
+      ],
+    },
+  },
+  {
+    num: 6,
+    title: "Forensic Code-Analysis Pipeline",
+    category: "Skills & Competencies",
+    theme: "AI Eng",
+    summary: "Code-as-crime-scene pipeline (hotspots, churn × complexity, co-change, bus factor) for the AA26 frontend; drives data-backed refactor prioritization.",
+    metrics: [
+      "Avg cyclomatic complexity on top-10 hotspots: −25%",
+      "Bus factor ≥ 2 on top-5 feature slices",
+      "Cross-layer co-change pairs > 0.7 coupling: −40%",
+      "≥ 4 hotspot-driven refactor PRs with pre/post complexity deltas",
+    ],
+    quarters: {
+      Q1: [
+        "Start Tornhill 'Your Code as a Crime Scene' ch. 1–7 notes",
+      ],
+      Q2: [
+        "Local CLI prototype for churn + complexity",
+        "Baseline top-20 hotspots, avg complexity, bus-factor per slice, top co-change pairs",
+        "Scripted repeatable pipeline (anyone can rerun)",
+        "Decide storage/access format",
+        "1st refactor PR citing hotspot rank",
+      ],
+      Q3: [
+        "Pick surfacing format (dashboard / report / PR comment / digest)",
+        "Propose Steiger/ESLint rule blocking PRs that push top-5 hotspots past complexity ceiling",
+        "2 hotspot refactors shipped",
+      ],
+      Q4: [
+        "4 total hotspot refactors with complexity + bug-incidence deltas",
+        "Experimental adoption on 1Secure FE",
+      ],
+    },
+  },
+  {
+    num: 7,
+    title: "FE Architecture Conference + Applied Takeaways",
+    category: "Growth & Development",
+    theme: "Quality & Arch",
+    summary: "Attend one conference (React Conf / JSConf / React Summit / React Advanced / MUI Connect or equivalent); merge learnings as concrete PRs.",
+    metrics: [
+      "1 conference attended",
+      "1 trip report (≤ 2 pages)",
+      "2–3 applied-takeaway PRs/ADRs merged (each with 'from session X' note)",
+    ],
+    quarters: {
+      Q1: [
+        "Shortlist 3 candidate conferences",
+        "Pitch to EM with cost + time",
+        "Register for selected event",
+        "Pre-read prior-year talks to prime questions",
+      ],
+      Q2: [
+        "If event in Q2: attend + trip report within 2 weeks + 1st takeaway PR",
+        "Otherwise: continue prep and pre-reading",
+      ],
+      Q3: [
+        "If Q2 event: ship remaining takeaway PRs",
+        "If Q3 event: attend + trip report + 1st takeaway PR",
+      ],
+      Q4: [
+        "All committed takeaways merged (2–3)",
+        "Final retrospective: worth it? repeat next year?",
+      ],
+    },
+  },
+  {
+    num: 8,
+    title: "AI-Engineering Course + Applied Project",
+    category: "Growth & Development",
+    theme: "AI Eng",
+    summary: "Complete one course end-to-end and ship one project applying it. Candidates: Anthropic Claude API / Agent SDK / skills track; Karpathy 'AI for Devs'; DeepLearning.AI short courses.",
+    metrics: [
+      "1 course completed (cert or all modules done)",
+      "1 course-notes doc (≤ 3 pages)",
+      "1 applied project merged (tied to course in PR body; likely feeds Goals 2 / 4 / 6)",
+    ],
+    quarters: {
+      Q1: [
+        "Shortlist 3 candidate courses (scope, depth, cost, fit)",
+        "Pick one and enroll",
+        "Draft course-notes outline",
+      ],
+      Q2: [
+        "Complete ≥ 60% of course modules",
+        "Populate course-notes doc as I go",
+        "Pick applied-project idea based on goal alignment",
+      ],
+      Q3: [
+        "Finish course",
+        "Ship project MVP",
+      ],
+      Q4: [
+        "Project v1.0 merged (tied to course in PR body)",
+        "Publish course-notes doc",
+        "Short retrospective + next-year direction",
+      ],
+    },
+  },
+];
+
+/* ---------------- state ---------------- */
+const STORAGE_KEY = "fy27-goals-progress-v1";
+let state = {};
+try { state = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}"); } catch (e) { state = {}; }
+function save() { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+function keyFor(goalNum, q, idx) { return `g${goalNum}.${q}.${idx}`; }
+function isChecked(goalNum, q, idx) { return !!state[keyFor(goalNum, q, idx)]; }
+function setChecked(goalNum, q, idx, value) {
+  state[keyFor(goalNum, q, idx)] = value;
+  save();
+}
+
+/* ---------------- progress ---------------- */
+function goalTotals(goal, q) {
+  // q = "all" | "Q1" | "Q2" | "Q3" | "Q4"
+  let total = 0, done = 0;
+  const qs = q === "all" ? ["Q1","Q2","Q3","Q4"] : [q];
+  for (const qq of qs) {
+    const items = goal.quarters[qq] || [];
+    for (let i = 0; i < items.length; i++) {
+      total++;
+      if (isChecked(goal.num, qq, i)) done++;
+    }
+  }
+  return { total, done };
+}
+function quarterTotals(q) {
+  let total = 0, done = 0;
+  for (const g of GOALS) {
+    const t = goalTotals(g, q);
+    total += t.total; done += t.done;
+  }
+  return { total, done };
+}
+function pct({ total, done }) { return total === 0 ? 0 : Math.round(100 * done / total); }
+
+/* ---------------- render ---------------- */
+const tabs = document.querySelectorAll(".tab");
+const content = document.getElementById("content");
+const qheadContainer = document.getElementById("qhead-container");
+const qprogContainer = document.getElementById("qprog-container");
+
+let currentQ = "all";
+
+function render() {
+  // tab aria-selected
+  for (const t of tabs) t.setAttribute("aria-selected", t.dataset.q === currentQ ? "true" : "false");
+
+  // quarter-level header + progress
+  const qt = quarterTotals(currentQ);
+  const qp = pct(qt);
+  const label = currentQ === "all" ? "Full year — 8 goals"
+    : currentQ === "Q1" ? "Q1 — Ramp (planning, shortlisting, enrolment)"
+    : currentQ === "Q2" ? "Q2 — Kickoff (baseline capture + first deliverables)"
+    : currentQ === "Q3" ? "Q3 — Build (main delivery quarter)"
+    : "Q4 — Deliver (synthesize, publish, consolidate)";
+  qheadContainer.innerHTML = `
+    <div class="qhead">
+      <h2>${label}</h2>
+      <div class="pct">${qt.done} / ${qt.total} done · ${qp}%</div>
+    </div>`;
+  qprogContainer.innerHTML = `<div class="qprog"><div style="width:${qp}%"></div></div>`;
+
+  // goals list
+  content.innerHTML = "";
+  let lastCategory = null;
+  for (const g of GOALS) {
+    const gt = goalTotals(g, currentQ);
+    if (currentQ !== "all" && gt.total === 0) continue; // skip goals with nothing in this quarter
+    if (currentQ === "all" && g.category !== lastCategory) {
+      const divider = document.createElement("div");
+      divider.className = "cat-divider";
+      divider.innerHTML = `<span class="cat-badge ${categoryClass(g.category)}">${escapeHtml(g.category)}</span>`;
+      content.appendChild(divider);
+      lastCategory = g.category;
+    }
+    const gp = pct(gt);
+    const el = document.createElement("details");
+    el.className = "goal";
+    el.open = currentQ !== "all"; // when filtering by quarter, expand to show work
+    const catClass = categoryClass(g.category);
+    el.innerHTML = `
+      <summary><header>
+        <div class="goal-num">Goal ${g.num}</div>
+        <div class="cat-badge ${catClass}" title="${escapeHtml(g.category)}">${escapeHtml(g.category)}</div>
+        <div class="goal-title">${escapeHtml(g.title)}</div>
+        <div class="goal-meta">
+          <div class="mini-bar"><div style="width:${gp}%"></div></div>
+          <div class="goal-pct">${gt.done}/${gt.total}</div>
+          <div class="chev">›</div>
+        </div>
+      </header></summary>
+      <div class="body">
+        <div class="sub" style="margin-bottom:8px">Theme: ${escapeHtml(g.theme)}</div>
+        <div style="font-size:13.5px;color:var(--muted);margin-bottom:10px">${escapeHtml(g.summary)}</div>
+
+        <div class="section-h">Q4 targets (metrics)</div>
+        <div class="metrics">${g.metrics.map(m => `• ${escapeHtml(m)}`).join("<br>")}</div>
+
+        <div class="section-h">Milestones</div>
+        ${renderQuartersForGoal(g)}
+      </div>
+    `;
+    content.appendChild(el);
+  }
+
+  attachCheckboxHandlers();
+}
+
+function renderQuartersForGoal(g) {
+  const quarters = currentQ === "all" ? ["Q1","Q2","Q3","Q4"] : [currentQ];
+  return quarters.map(q => {
+    const items = g.quarters[q] || [];
+    if (!items.length) return "";
+    const isRamp = q === "Q1";
+    return `
+      <div class="q-block${isRamp ? " ramp" : ""}">
+        <div class="q-block-h"><span class="q-badge">${q}</span>${isRamp ? "ramp" : ""}</div>
+        <ul class="checks">
+          ${items.map((it, i) => {
+            const k = keyFor(g.num, q, i);
+            const done = isChecked(g.num, q, i);
+            return `<li class="${done ? "done" : ""}">
+              <input type="checkbox" id="${k}" data-g="${g.num}" data-q="${q}" data-i="${i}" ${done ? "checked" : ""}/>
+              <label for="${k}">${escapeHtml(it)}</label>
+            </li>`;
+          }).join("")}
+        </ul>
+      </div>`;
+  }).join("");
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
+}
+
+function categoryClass(cat) {
+  if (cat.startsWith("Results")) return "cat-results";
+  if (cat.startsWith("Behaviors")) return "cat-behaviors";
+  if (cat.startsWith("Skills")) return "cat-skills";
+  if (cat.startsWith("Growth")) return "cat-growth";
+  return "";
+}
+
+function attachCheckboxHandlers() {
+  for (const cb of content.querySelectorAll('input[type="checkbox"]')) {
+    cb.addEventListener("change", e => {
+      const { g, q, i } = cb.dataset;
+      setChecked(+g, q, +i, cb.checked);
+      render();
+    });
+  }
+}
+
+for (const t of tabs) {
+  t.addEventListener("click", () => {
+    currentQ = t.dataset.q;
+    render();
+  });
+}
+
+document.getElementById("reset-btn").addEventListener("click", () => {
+  if (!confirm("Reset all progress? This clears every checkbox in this browser.")) return;
+  state = {};
+  save();
+  render();
+});
+
+document.getElementById("export-btn").addEventListener("click", () => {
+  const snapshot = {
+    generatedAt: new Date().toISOString(),
+    state,
+    goals: GOALS.map(g => {
+      const qs = {};
+      for (const q of ["Q1","Q2","Q3","Q4"]) {
+        qs[q] = (g.quarters[q] || []).map((text, i) => ({
+          text, done: isChecked(g.num, q, i),
+        }));
+      }
+      return { num: g.num, title: g.title, category: g.category, theme: g.theme, metrics: g.metrics, quarters: qs };
+    }),
+  };
+  const blob = new Blob([JSON.stringify(snapshot, null, 2)], { type: "application/json" });
+  const a = document.createElement("a");
+  const stamp = new Date().toISOString().replace(/[:.]/g, "-").slice(0, 19);
+  a.href = URL.createObjectURL(blob);
+  a.download = `fy27-goals-progress-${stamp}.json`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+});
+
+render();
+</script>
+</body>
+</html>
