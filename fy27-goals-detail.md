@@ -4,7 +4,7 @@
 > and milestones will be revised as baselines are captured in Q2 and as circumstances
 > evolve through the year.
 
-**Role:** Senior FE, AA26 DSPM (Netwrix)
+**Role:** Senior Front-End Developer on the current project
 **Horizon:** 2026-04 → 2027-04. **Q1 is ramp-up** (planning, shortlisting, enrolment, light
 pre-reading). Active execution runs **Q2–Q4** with quarterly check-ins.
 **Anchor themes:** AI Engineering Excellence + Frontend Quality & Architecture
@@ -27,7 +27,7 @@ cost / licensing, team friction / DX.
 
 **Metrics (Q4 targets)**
 - ≥ 7 tools scored (≥ 2–3 per category) · ≥ 2 piloted hands-on
-- ~15-item labeled sample (AA26 files/PRs with known issues tagged)
+- ~15-item labeled sample (files/PRs from the current project with known issues tagged)
 - 1 recommendation doc (≤ 10 pages) at `docs/ai-engineering/code-health-tooling-evaluation.md`
 - 100% of shortlist scored on all 4 dimensions
 
@@ -61,13 +61,13 @@ skills. JSONL results; reporting format (CSV / dashboard / PR comment / etc.) de
 - Review skills: precision ≥ 75%, recall ≥ 55%, false-positive rate ≤ 25% (held-out labeled PRs)
 - Tokens/task −20%, cost/task −20% vs. Q2 baseline
 - ≥ 3 code-quality skills versioned + changelog · ≥ 25 labeled fixture PRs
-- Harness adopted by ≥ 1 other FE engineer; reusable preset for 1Secure
+- Harness adopted by ≥ 1 other FE engineer; reusable preset for sister products
 
 **Quarterly**
 - **Q1 (ramp)** draft versioning convention + scout labeled-fixture candidates from merged PRs
 - **Q2** harness MVP on 1 existing review skill + 10 labeled fixtures + baseline + version/benchmark existing skills + first A/B upgrade (≥ 10pp precision delta)
 - **Q3** ship first new skill where a gap is confirmed + pick reporting format + ≥ 3 minor-version upgrades with regression gate
-- **Q4** hit KPIs + 1 other-engineer adoption + publish preset for 1Secure
+- **Q4** hit KPIs + 1 other-engineer adoption + publish reusable preset for sister products
 
 **Evidence** — Git history on `.claude/skills/` with semver tags + CHANGELOGs; harness
 source; labeled fixture set; JSONL logs; reusable preset package.
@@ -82,18 +82,18 @@ shows a real gap.
 
 ## 3 — Cross-Product FE Architecture Contributions
 
-Three tracks: extraction-ready components, Netwrix MUI theme adoption, ADR practice.
+Three tracks: extraction-ready components, shared MUI theme adoption, ADR practice.
 
-> **Note on `@netwrix/ui` ownership.** Graduating `@netwrix/theme` (v0.1.27) into a full
-> cross-product library may be owned by another team. My commitment is extraction-readiness
-> — no-regret whether or not `@netwrix/ui` ships this year.
+> **Note on cross-product library ownership.** Graduating the existing shared theme package
+> into a full cross-product component library may be owned by another team. My commitment
+> is extraction-readiness — no-regret whether or not the shared library ships this year.
 
 **Specifics**
 - **Extraction-ready components** — written checklist (theme-first; minimal deps; stable
   public API; Storybook-ready demo; usage notes). List maintained in
-  `services/frontend/webapp/docs/extraction-ready-components.md`.
+  `frontend/docs/extraction-ready-components.md`.
 - **Theme adoption** — audit 4 violation categories (hardcoded colors, spacing, ad-hoc `sx`
-  vs. variants, ad-hoc typography). Publish Netwrix MUI Theme Usage Guide. Ship ESLint rule
+  vs. variants, ad-hoc typography). Publish Shared MUI Theme Usage Guide. Ship ESLint rule
   that flags new violations on changed lines.
 - **ADRs** — extend `docs/adr/` with a template, review expectation, and sequential numbering
   for every significant FE architecture decision.
@@ -112,13 +112,13 @@ Three tracks: extraction-ready components, Netwrix MUI theme adoption, ADR pract
   + ADR-0004 theme strategy + ADR-0005 shared-UI API conventions
 - **Q3** tag 3 more components + ESLint rule → error-mode on changed lines + ≥ 25% remediation
   + ADR-0006 shadcn status + ADR-0007 if cross-product coordination becomes real
-- **Q4** ≥ 50% remediation + coordinate on contribution path if `@netwrix/ui` exists + ADR-0008
-  year-end decisions
+- **Q4** ≥ 50% remediation + coordinate on contribution path if a cross-product library
+  exists + ADR-0008 year-end decisions
 
 **Evidence** — Extraction-ready list + tagged components, theme audit report + trend,
-Netwrix MUI Theme Usage Guide, ESLint rule source + CI config, ADRs 0003–0008+, component PRs.
+Shared MUI Theme Usage Guide, ESLint rule source + CI config, ADRs 0003–0008+, component PRs.
 
-**Risks** — No `@netwrix/ui` this year → extraction-ready work is no-regret anyway. MUI ↔
+**Risks** — No cross-product library this year → extraction-ready work is no-regret anyway. MUI ↔
 shadcn split → tag only MUI components extraction-ready. Remediation fatigue → "no new
 violations" first, then PR-sized batches paired with feature work. ESLint false positives →
 warn-mode for one quarter (Q2) before error-mode (Q3). ADR paperwork → ≤ 1-page template,
@@ -126,14 +126,15 @@ ADR-worthy bar defined in README.
 
 ---
 
-## 4 — AIdeas Session + Developer-Facing Companion Skill
+## 4 — Internal AI Event Session + Developer-Facing Companion Skill
 
-Two coupled deliverables: one AIdeas talk + a developer-pulled code-quality companion skill
-(not an auto-commenting PR bot).
+Two coupled deliverables: one talk at an internal AI-focused event + a developer-pulled
+code-quality companion skill (not an auto-commenting PR bot).
 
 **Specifics**
-- **AIdeas session** — 30–45 min on code-quality AI tooling in AA26 (Goals 1, 2, 6 +
-  companion skill). Deck, recording, and write-up at `docs/ai-engineering/aideas-session.md`.
+- **Internal AI event session** — 30–45 min on code-quality AI tooling in the current project
+  (Goals 1, 2, 6 + companion skill). Deck, recording, and write-up at
+  `docs/ai-engineering/ai-event-session.md`.
 - **Companion skill** — first-class skill in `.claude/skills/` with three dev-invoked modes:
   - Self-review mode — runs on staged diff before push; surfaces code-health, FSD boundary
     issues, test gaps, duplication, complexity hotspots.
@@ -143,21 +144,21 @@ Two coupled deliverables: one AIdeas talk + a developer-pulled code-quality comp
     change (hotspot? shared component? new dep?).
 
 **Metrics (Q4 targets)**
-- 1 AIdeas talk delivered + ≥ 3 follow-up adoption conversations + write-up
+- 1 talk delivered + ≥ 3 follow-up adoption conversations + write-up
 - Companion skill benchmarked via Goal 2 harness
 - Adopted by ≥ 4 FE engineers · ≥ 40 invocations logged · ≥ 60% "improved my workflow" survey
 - 3 modes shipped (self-review → PR-packaging → review-helper sequence)
 
 **Quarterly**
-- **Q1 (ramp)** outline AIdeas talk proposal + sketch skill modes on paper
-- **Q2** submit AIdeas proposal + skill design spike + test on ~5 historical PRs + ship v0.x (self-review + PR-packaging) + 2-teammate pilot + refine talk deck
-- **Q3** v1.0 (all 3 modes) + broaden to ≥ 4 users + deliver AIdeas talk (or prep for H2 date if event is later) + publish write-up + v1.1
-- **Q4** ≥ 40 invocations + post-pilot survey + usage report + consider 1Secure transfer
+- **Q1 (ramp)** outline talk proposal + sketch skill modes on paper
+- **Q2** submit talk proposal + skill design spike + test on ~5 historical PRs + ship v0.x (self-review + PR-packaging) + 2-teammate pilot + refine talk deck
+- **Q3** v1.0 (all 3 modes) + broaden to ≥ 4 users + deliver the talk (or prep for H2 date if event is later) + publish write-up + v1.1
+- **Q4** ≥ 40 invocations + post-pilot survey + usage report + consider transfer to sister products
 
-**Evidence** — Skill source + changelog, AIdeas deck + recording + write-up, usage-log
+**Evidence** — Skill source + changelog, talk deck + recording + write-up, usage-log
 excerpts, pilot feedback, survey results.
 
-**Risks** — AIdeas proposal rejected / event slips → fallback is internal FE demo + written
+**Risks** — Talk proposal rejected / event slips → fallback is internal FE demo + written
 article. Low adoption → Q2 pilot shapes DX first; usage stays voluntary. Scope creep across
 modes → ship sequentially, each with a single clear intent.
 
@@ -202,9 +203,10 @@ truth cited from Goal 1. WAS exam slips → fallback to Deque or WebAIM certific
 
 ## 6 — Forensic Code-Analysis Pipeline
 
-Code-as-crime-scene pipeline for the AA26 frontend; drives data-backed refactor prioritization.
+Code-as-crime-scene pipeline for the current project's frontend; drives data-backed refactor
+prioritization.
 
-**Specifics** — Mine `git log` on `services/frontend/webapp/src/` for per-file churn,
+**Specifics** — Mine `git log` on `frontend/src/` for per-file churn,
 complexity (`eslint-plugin-sonarjs` / `complexity-report`), hotspot score (churn × complexity),
 co-change pairs, author knowledge concentration. Storage & surfacing format + automation
 frequency decided later based on what's useful — commitment is to the analysis, not a stack.
@@ -221,9 +223,9 @@ frequency decided later based on what's useful — commitment is to the analysis
   repeatable pipeline + decide storage/access + 1st refactor PR citing hotspot rank
 - **Q3** pick surfacing format (dashboard / report / PR comment / digest) + Steiger/ESLint rule
   blocking PRs that push top-5 hotspots past a complexity ceiling + 2 refactors
-- **Q4** 4 total refactors with complexity + bug-incidence deltas + experimental adoption on 1Secure
+- **Q4** 4 total refactors with complexity + bug-incidence deltas + experimental adoption on another product's frontend
 
-**Evidence** — Pipeline source in `services/frontend/webapp/scripts/forensics/` (or equiv.);
+**Evidence** — Pipeline source in `frontend/scripts/forensics/` (or equiv.);
 surfacing artifact; refactor PRs with before/after metrics; forensics notes.
 
 **Risks** — Git-log noise (renames, squash-merges) → `--follow`, `--find-renames`, exclude
@@ -282,8 +284,8 @@ year if bigger.
 
 # Critical Files & Anchors
 
-- [services/frontend/webapp/.claude/skills/](services/frontend/webapp/.claude/skills/) — versioning + benchmarking target (Goal 2)
-- [services/frontend/webapp/.claude/CLAUDE.md](services/frontend/webapp/.claude/CLAUDE.md) — FSD rules, Container pattern, Metabase workaround
-- [services/frontend/webapp/src/shared/ui/AppBreadcrumbs/](services/frontend/webapp/src/shared/ui/AppBreadcrumbs/) — likely first extraction-ready component
-- [docs/adr/](docs/adr/) — ADR repo (extend ADR-0001 / ADR-0002 onward)
-- [lefthook.yml](lefthook.yml) — integration point for benchmark CI gates
+- `frontend/.claude/skills/` — versioning + benchmarking target (Goal 2)
+- `frontend/.claude/CLAUDE.md` — FSD rules, Container pattern, local workarounds
+- `frontend/src/shared/ui/AppBreadcrumbs/` — likely first extraction-ready component
+- `docs/adr/` — ADR repo (extend ADR-0001 / ADR-0002 onward)
+- `lefthook.yml` — integration point for benchmark CI gates

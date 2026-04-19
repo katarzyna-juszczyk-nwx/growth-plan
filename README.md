@@ -1,4 +1,4 @@
-# FY27 Growth Plan — Senior Front-End (AA26 DSPM)
+# FY27 Growth Plan — Senior Front-End
 
 Working plan for my FY27 competence growth, with an interactive dashboard for
 tracking progress through the year.
